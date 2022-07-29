@@ -33,9 +33,32 @@ function my_custom_menu_page_mail(){
     echo '<div id="wpbody-content"><div class="wrap"> <h1 class="wp-heading-inline">
 Groups Learndash</h1></div></div>';  
     echo '<br>';
+    $argsseries = array(
+        'name' => 'seriestv',
+    );
+    $post_types = get_post_types( $argsseries, 'objects' );
+ 
+    foreach ( $post_types  as $post_type ) {
+       echo '<p>Custom Post Type name: ' . $post_type->name . "<br />\n";
+       echo 'Single name: ' . $post_type->labels->singular_name . "<br />\n";
+       echo 'Menu icon URL: ' . $post_type->menu_icon . "</p>\n";;
+    }
+    
+    $posts = get_posts([
+        'post_type' => 'seriestv',
+        'post_status' => 'publish',
+        'numberposts' => -1
+        // 'order'    => 'ASC'
+      ]);
+      foreach ( $posts as $post) {
+       
 
-    
-    
+        $content = apply_filters('the_content', $post->post_content);
+        echo $content;
+        echo '<p>Custom Post name: ' . $post->ID . "<br />\n";
+        echo get_the_title($post->ID);
+       
+     }
     echo '<form method="POST"><select name="myselect"> ';
    $groups = learndash_get_groups(1);
    
